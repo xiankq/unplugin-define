@@ -1,0 +1,32 @@
+{
+  "name": "unplugin-define-example",
+  "type": "module",
+  "scripts": {
+    "dev:vite": "vite",
+    "dev:webpack": "nodemon -w '../../dist/**.js' -e .js -x webpack serve --mode=development",
+    "dev:rspack": "rspack serve",
+    "build:vite": "vite build",
+    "build:webpack": "webpack --mode=production",
+    "build:rspack": "rspack",
+    "preview:vite": "vite preview"
+  },
+  "devDependencies": {
+    "@rspack/cli": "^0.2.3",
+    "cross-env": "^7.0.3",
+    "css-loader": "^6.7.3",
+    "esbuild": "^0.18.8",
+    "html-webpack-plugin": "^5.5.1",
+    "rollup": "^3.25.2",
+    "style-loader": "^3.2.2",
+    "ts-loader": "^9.4.3",
+    "ts-node": "^10.9.1",
+    "tsx": "^3.12.7",
+    "typescript": "5.1.3",
+    "url-loader": "^4.1.1",
+    "vite": "^4.3.6",
+    "vite-plugin-inspect": "^0.7.26",
+    "webpack": "^5.82.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0"
+  }
+}

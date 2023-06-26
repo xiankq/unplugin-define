@@ -13,11 +13,11 @@ npm i unplugin-define
 
 ```ts
 // vite.config.ts
-import copy from 'unplugin-define/vite'
+import plugin from 'unplugin-define/vite'
 
 export default defineConfig({
   plugins: [
-    copy({
+    plugin({
       src: './node_modules/vue/dist/*',
       dest: 'vue'
     }),
@@ -34,11 +34,11 @@ Example: [`example/`](./example/)
 
 ```ts
 // rollup.config.js
-import copy from 'unplugin-define/rollup'
+import plugin from 'unplugin-define/rollup'
 
 export default {
   plugins: [
-    copy({
+    plugin({
       src: './node_modules/vue/dist/*',
       dest: 'vue'
     }),
@@ -57,7 +57,7 @@ export default {
 module.exports = {
   /* ... */
   plugins: [
-    copy({
+    plugin({
       src: './node_modules/vue/dist/*',
       dest: 'vue'
     }),
@@ -113,11 +113,11 @@ module.exports = {
 ```ts
 // esbuild.config.js
 import { build } from 'esbuild'
-import copy from 'unplugin-define/esbuild'
+import plugin from 'unplugin-define/esbuild'
 
 build({
   plugins: [
-    copy({
+    plugin({
       src: './node_modules/vue/dist/*',
       dest: 'vue'
     }),
