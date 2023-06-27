@@ -3,12 +3,17 @@ import { createFilter } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
 import type { UnpluginDefineOptions } from './types'
 
-export default createUnplugin<UnpluginDefineOptions>((replacements) => {
+export default createUnplugin<UnpluginDefineOptions>((options = {}) => {
+  const { include, exclude } = options
+
   const jsFileFilter = createFilter(
     [/\.[jt]sx?$/, /\.vue$/, /\.vue\?vue/, /\.svelte$/],
   )
+  const filter = createFilter(
+    include || '**/*', exclude,
+  )
 
-  replacements = { ...replacements }
+  const replacements = { ...options.replacements }
   const targets = Object.keys(replacements ?? {})
 
   targets.forEach((key) => {
@@ -23,15 +28,15 @@ export default createUnplugin<UnpluginDefineOptions>((replacements) => {
     transformInclude(id) {
       if (targets.length === 0)
         return false
-      return jsFileFilter(id)
+      return jsFileFilter(id) && filter(id)
     },
 
     transform(code, id) {
       const _code = code
       targets.forEach((target) => {
-        if (_code.includes(target)) {
+        if (code.includes(target)) {
           const value = replacements[target]
-          _code.replaceAll(target, value)
+          code.replaceAll(target, value)
         }
       })
 
@@ -39,8 +44,8 @@ export default createUnplugin<UnpluginDefineOptions>((replacements) => {
         return
 
       return {
-        code: _code,
-        map: new MagicString(_code).generateMap({ source: id, includeContent: true, hires: true }),
+        code,
+        map: new MagicString(code).generateMap({ source: id, includeContent: true, hires: true }),
       }
     },
   }
