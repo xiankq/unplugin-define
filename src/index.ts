@@ -11,7 +11,7 @@ export interface UnpluginDefineOptions {
 }
 
 export const unpluginFactory: UnpluginFactory<UnpluginDefineOptions> = (options = {}) => {
-  const { include, exclude } = options
+  const { include, exclude, replacements } = options
 
   const jsFileFilter = createFilter(
     [/\.[jt]sx?$/, /\.vue$/, /\.vue\?vue/, /\.svelte$/],
@@ -21,36 +21,36 @@ export const unpluginFactory: UnpluginFactory<UnpluginDefineOptions> = (options 
     exclude,
   )
 
-  const replacements = { ...options.replacements }
+  const _replacements = { ...replacements }
   const targets = Object.keys(replacements ?? {})
 
   targets.forEach((key) => {
-    const val = replacements[key]
+    const val = _replacements[key]
     if (!(val instanceof String))
-      replacements[key] = JSON.stringify(val)
+      _replacements[key] = JSON.stringify(val)
   })
 
   return {
     enforce: 'pre',
     name: 'unplugin-define',
     transformInclude(id) {
-      if (targets.length === 0)
+      if (targets.length === 0) {
         return false
+      }
       return jsFileFilter(id) && filter(id)
     },
 
     transform(code, id) {
       const _code = code
       targets.forEach((target) => {
-        if (code.includes(target)) {
-          const value = replacements[target]
-          code.replaceAll(target, value)
+        if (_code.includes(target)) {
+          const value = _replacements[target]
+          code = code.replaceAll(target, value)
         }
       })
-
-      if (_code === code)
+      if (_code === code) {
         return
-
+      }
       return {
         code,
         map: new MagicString(code).generateMap({ source: id, includeContent: true, hires: true }),

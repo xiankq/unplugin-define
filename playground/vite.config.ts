@@ -3,19 +3,6 @@ import InspectPlugin from 'vite-plugin-inspect'
 import UnPluginDefine from 'unplugin-define/vite'
 
 export default defineConfig({
-  build: {
-    sourcemap: true,
-    minify: false,
-    rollupOptions: {
-      input: {
-        app: './entry/vite.html',
-      },
-    },
-    outDir: 'dist/vite',
-  },
-  server: {
-    port: 8100,
-  },
   plugins: [
     InspectPlugin(),
     UnPluginDefine({
