@@ -1,16 +1,23 @@
-import type { UnpluginDefineOptions } from './types'
-import unplugin from '.'
+import { addVitePlugin, addWebpackPlugin, defineNuxtModule } from '@nuxt/kit'
+import vite from './vite'
+import webpack from './webpack'
+import type { UnpluginDefineOptions } from '.'
+import '@nuxt/schema'
 
-export default function (options: UnpluginDefineOptions, nuxt: any) {
-  // install webpack plugin
-  nuxt.hook('webpack:config', async (config: any) => {
-    config.plugins = config.plugins || []
-    config.plugins.unshift(unplugin.webpack(options))
-  })
+export interface ModuleOptions extends UnpluginDefineOptions {
 
-  // install vite plugin
-  nuxt.hook('vite:extendConfig', async (config: any) => {
-    config.plugins = config.plugins || []
-    config.plugins.push(unplugin.vite(options))
-  })
 }
+
+export default defineNuxtModule<ModuleOptions>({
+  meta: {
+    name: 'nuxt-unplugin-define',
+    configKey: 'unpluginCopy',
+  },
+  defaults: {
+    targets: [],
+  },
+  setup(options, _nuxt) {
+    addVitePlugin(() => vite(options))
+    addWebpackPlugin(() => webpack(options))
+  },
+})

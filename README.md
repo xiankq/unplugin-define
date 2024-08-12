@@ -2,8 +2,8 @@
 
 Replace variables in code with other values or expressions. Supports Vite, Rollup, Webpack, Rspack and more.
 
-
 ##### NOTE
+
 The original intention of this plugin is to provide compatibility for lower-level plugins. You should give priority to using the `define` that comes with the build tool.
 <br>
 such as:
@@ -15,9 +15,11 @@ such as:
 ```bash
 npm i unplugin-define
 ```
+
 See example: [`example/`](./example/)
 
 ## Usage
+
 ```ts
 UnpluginDefine({
   // include: [],
@@ -32,6 +34,7 @@ UnpluginDefine({
   }
 })
 ```
+
 ```ts
 // input
 if (process.env.NODE_ENV === 'development')
@@ -69,7 +72,9 @@ export default defineConfig({
   ],
 })
 ```
+
 <br></details>
+
 <details>
 <summary>Rollup</summary><br>
 
@@ -87,7 +92,6 @@ export default {
 ```
 
 <br></details>
-
 
 <details>
 <summary>Webpack</summary><br>
@@ -161,6 +165,7 @@ build({
   ],
 })
 ```
+
 <br></details>
 
 <details>
@@ -178,4 +183,5 @@ module.exports = defineConfig({
   ]
 })
 ```
+
 <br></details>

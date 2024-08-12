@@ -1,16 +1,24 @@
+import type { UnpluginFactory } from 'unplugin'
 import { createUnplugin } from 'unplugin'
+import type { FilterPattern } from '@rollup/pluginutils'
 import { createFilter } from '@rollup/pluginutils'
 import MagicString from 'magic-string'
-import type { UnpluginDefineOptions } from './types'
 
-export default createUnplugin<UnpluginDefineOptions>((options = {}) => {
+export interface UnpluginDefineOptions {
+  include?: FilterPattern
+  exclude?: FilterPattern
+  replacements?: Record<string, any>
+}
+
+export const unpluginFactory: UnpluginFactory<UnpluginDefineOptions> = (options = {}) => {
   const { include, exclude } = options
 
   const jsFileFilter = createFilter(
     [/\.[jt]sx?$/, /\.vue$/, /\.vue\?vue/, /\.svelte$/],
   )
   const filter = createFilter(
-    include || '**/*', exclude,
+    include || '**/*',
+    exclude,
   )
 
   const replacements = { ...options.replacements }
@@ -49,4 +57,8 @@ export default createUnplugin<UnpluginDefineOptions>((options = {}) => {
       }
     },
   }
-})
+}
+
+export const unplugin = /* #__PURE__ */ createUnplugin(unpluginFactory)
+
+export default unplugin

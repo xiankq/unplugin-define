@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite'
 import InspectPlugin from 'vite-plugin-inspect'
-import Plugin from '../dist/vite'
+import UnPluginDefine from 'unplugin-define/vite'
 
 // @ts-expect-error types
-import options from './options.js'
 
 export default defineConfig({
   build: {
@@ -21,6 +20,12 @@ export default defineConfig({
   },
   plugins: [
     InspectPlugin(),
-    Plugin(options),
+    UnPluginDefine({
+      // include: [],
+      // exclude: [],
+      replacements: {
+        __CUSTOM_STRING: JSON.stringify('I am custom_string'),
+      },
+    }),
   ],
 })
