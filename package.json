@@ -12,21 +12,36 @@
   "bugs": {
     "url": "https://github.com/xiankq/unplugin-define/issues"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "keywords": [
+    "define",
     "unplugin",
     "vite",
-    "webpack",
     "rollup",
-    "transform",
+    "rolldown",
+    "webpack",
     "rspack",
+    "transform",
     "esbuild",
-    "copy"
+    "farm"
   ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./astro": {
+      "types": "./dist/astro.d.ts",
+      "import": "./dist/astro.js",
+      "require": "./dist/astro.cjs"
+    },
+    "./rspack": {
+      "types": "./dist/rspack.d.ts",
+      "import": "./dist/rspack.js",
+      "require": "./dist/rspack.cjs"
     },
     "./vite": {
       "types": "./dist/vite.d.ts",
@@ -52,11 +67,6 @@
       "types": "./dist/nuxt.d.ts",
       "import": "./dist/nuxt.js",
       "require": "./dist/nuxt.cjs"
-    },
-    "./rspack": {
-      "types": "./dist/rspack.d.ts",
-      "import": "./dist/rspack.js",
-      "require": "./dist/rspack.cjs"
     },
     "./types": {
       "types": "./dist/types.d.ts",
