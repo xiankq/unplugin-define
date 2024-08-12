@@ -81,6 +81,9 @@ importers:
       typescript:
         specifier: 5.5.4
         version: 5.5.4
+      unplugin-define:
+        specifier: workspace:*
+        version: link:..
       vite:
         specifier: ^5.4.0
         version: 5.4.0(@types/node@22.2.0)

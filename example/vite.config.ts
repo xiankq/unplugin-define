@@ -2,8 +2,6 @@ import { defineConfig } from 'vite'
 import InspectPlugin from 'vite-plugin-inspect'
 import UnPluginDefine from 'unplugin-define/vite'
 
-// @ts-expect-error types
-
 export default defineConfig({
   build: {
     sourcemap: true,
