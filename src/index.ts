@@ -10,49 +10,56 @@ export interface UnpluginDefineOptions {
   replacements?: Record<string, any>
 }
 
-export const unpluginFactory: UnpluginFactory<UnpluginDefineOptions> = (options = {}) => {
-  const { include, exclude, replacements } = options
+export const unpluginFactory: UnpluginFactory<UnpluginDefineOptions | UnpluginDefineOptions[]> = (options = {}) => {
+  const optionList = !Array.isArray(options) ? [options] : options
 
-  const jsFileFilter = createFilter(
-    [/\.[jt]sx?$/, /\.vue$/, /\.vue\?vue/, /\.svelte$/],
-  )
-  const filter = createFilter(
-    include || '**/*',
-    exclude,
-  )
-
-  const _replacements = { ...replacements }
-  const targets = Object.keys(replacements ?? {})
-
-  targets.forEach((key) => {
-    const val = _replacements[key]
-    if (!(val instanceof String))
-      _replacements[key] = JSON.stringify(val)
+  const list = optionList.map((options) => {
+    const { include, exclude, replacements } = options
+    const jsFileFilter = createFilter(
+      [/\.[jt]sx?$/, /\.vue$/, /\.vue\?vue/, /\.svelte$/],
+    )
+    const filter = createFilter(
+      include || '**/*',
+      exclude,
+    )
+    const _replacements = { ...replacements }
+    const targets = Object.keys(_replacements ?? {})
+    targets.forEach((key) => {
+      const val = _replacements[key]
+      if (!(val instanceof String))
+        _replacements[key] = JSON.stringify(val)
+    })
+    const replace = (code: string) => {
+      targets.forEach((target) => {
+        if (code.includes(target)) {
+          const value = _replacements[target]
+          code = code.replaceAll(target, value)
+        }
+      })
+      return code
+    }
+    return {
+      jsFileFilter,
+      filter,
+      replace,
+    }
   })
 
   return {
     enforce: 'pre',
     name: 'unplugin-define',
     transformInclude(id) {
-      if (targets.length === 0) {
-        return false
-      }
-      return jsFileFilter(id) && filter(id)
+      return list.some(option => option.jsFileFilter(id) && option.filter(id))
     },
 
     transform(code, id) {
-      const _code = code
-      targets.forEach((target) => {
-        if (_code.includes(target)) {
-          const value = _replacements[target]
-          code = code.replaceAll(target, value)
-        }
+      let transformCode = code
+      list.forEach((option) => {
+        transformCode = option.replace(transformCode)
       })
-      if (_code === code) {
-        return
-      }
+
       return {
-        code,
+        code: transformCode,
         map: new MagicString(code).generateMap({ source: id, includeContent: true, hires: true }),
       }
     },

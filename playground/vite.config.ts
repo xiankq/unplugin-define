@@ -9,7 +9,7 @@ export default defineConfig({
       // include: [],
       // exclude: [],
       replacements: {
-        __CUSTOM_STRING: JSON.stringify('I am custom_string'),
+        __CUSTOM_STRING: 'I am custom_string',
       },
     }),
   ],

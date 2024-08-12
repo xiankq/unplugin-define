@@ -21,18 +21,21 @@ See example: [`example/`](./example/)
 ## Usage
 
 ```ts
-UnpluginDefine({
+UnpluginDefine([
+  {
   // include: [],
   // exclude: [],
-  replacements: {
-    'process.env.NODE_ENV': '\'development\'',
-    'API_PREFIX': '/api',
-    'TRUE': true,
-    'TRUE_STRING': 'true',
-    'UNDEFINED': undefined,
-    'UNDEFINED_STRING': 'undefined',
-  }
-})
+    replacements: {
+      'process.env.NODE_ENV': '\'development\'',
+      'API_PREFIX': '/api',
+      'TRUE': true,
+      'TRUE_STRING': 'true',
+      'UNDEFINED': undefined,
+      'UNDEFINED_STRING': 'undefined',
+    }
+  },
+// ...
+])
 ```
 
 ```ts
